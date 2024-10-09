@@ -39,10 +39,11 @@ function SignIn(props) {
       console.log('aemUser saved to localStorage:', aemUser);
 
       localStorage.setItem("activeUser", JSON.stringify(verifiedUser)); // Save active user to localStorage
+      
       //CHATBOT - dialogflow code ammendments
-      localStorage.setItem('greetingDisplayed', 'false');
-      //sessionStorage.removeItem('df-messenger-sessionID');
-      //
+      window.dispatchEvent(new Event('resetChatbot'));
+      
+
       setIsSignedIn(true); // Set sign-in status to true
       setTimeout(() => {
         props.loginUser(verifiedUser.name); // Call loginUser prop function

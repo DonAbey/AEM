@@ -6,7 +6,6 @@ function App() {
     <>
       <div className="min-vh-100">
         <Main />
-        localStorage.setItem('greetingDisplayed', 'false');
       </div>
     </>
   );

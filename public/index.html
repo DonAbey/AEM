@@ -19,7 +19,7 @@
     <df-messenger
       id="chatbot"
       project-id="journaler-ai-bot"
-      agent-id="3b287d4f-cdaf-4e85-aceb-a8a0eea1c905"      
+      agent-id="3b287d4f-cdaf-4e85-aceb-a8a0eea1c905"
       allow-feedback="all"
       language-code="en">
       <df-messenger-chat-bubble chat-title="Mr Journaler"></df-messenger-chat-bubble>
@@ -38,10 +38,19 @@
         right: 16px;
       }
     </style>
-
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const originalSetItem = sessionStorage.setItem;
+
+
+        window.addEventListener('resetChatbot', () => {
+          const dfMessenger = document.querySelector('df-messenger');
+          sessionStorage.setItem('greetingUser','false');
+          //dfMessenger.clearStorage();
+          dfMessenger.startNewSession({ retainHistory: false });
+        })
+
+
 
         sessionStorage.setItem = function (key, value) {
             originalSetItem.apply(this, arguments);
@@ -57,32 +66,18 @@
             const activeUser = JSON.parse(localStorage.getItem('activeUser'));
             const aemUser = JSON.parse(localStorage.getItem('aemUser'));
             const sessionID = sessionStorage.getItem('df-messenger-sessionID'); // Retrieve session ID
-            if (activeUser && activeUser.name) {
-                const dfMessenger = document.querySelector('df-messenger');
-                dfMessenger.sendQuery('My name is ' + aemUser.name + ' and userid is ' + aemUser.id  + ' and the sessionID is ' + sessionID);
-                
-                // Fetch the conversation history from the cloud function
-                //fetchConversationHistory(sessionID);
-            }
-        }
+            const greetingUser = sessionStorage.getItem('greetingUser');
 
-        function fetchConversationHistory(sessionID) {
-          fetch('https://australia-southeast2-journaler-ai-bot.cloudfunctions.net/function-2-1', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              session_id: sessionID
-            }),
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Conversation history:', data.history);
-          })
-          .catch((error) => {
-            console.error('Error fetching conversation history:', error);
-          });
+
+            if (activeUser && (greetingUser == 'false')) {
+              const dfMessenger = document.querySelector('df-messenger');
+              dfMessenger.sendQuery('My name is ' + aemUser.name + ' and userid is ' + aemUser.id  + ' and the sessionID is ' + sessionID);
+              sessionStorage.setItem('greetingUser','true')
+            }else if(!activeUser && (greetingUser == 'false')){
+              const dfMessenger = document.querySelector('df-messenger');
+              dfMessenger.renderCustomText("G'day, I'm Mr Journaler, your virtual agent. How can I help you today? ", true);
+              sessionStorage.setItem('greetingUser','true')
+            }
         }
       });
     </script>

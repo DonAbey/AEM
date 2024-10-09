@@ -36,6 +36,7 @@ const Main = () => {
   const { username, loginUser, logout, getActiveUser } = LoginLogout();
   //if initdata changes -> call use effect to store the products in the local storage again
   const [initProducts, setInitProducts] = useState(getData("Products") || null);
+  sessionStorage.setItem('greetingUser','false')
   useEffect(() => {
     if (localStorage.getItem("Products") === null) {
       const init = initProductData();

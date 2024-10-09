@@ -26,6 +26,8 @@ const getData = (key) => {
 function removeUser() {
   localStorage.removeItem(USER_KEY);
   localStorage.removeItem(AEM_USER);
+  //CHATBOT - Adjustments
+  window.dispatchEvent(new Event('resetChatbot'));
 }
 
 const setData = (key, data) => {
