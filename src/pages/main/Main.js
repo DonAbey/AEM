@@ -31,6 +31,7 @@ import ViewLastDailyMealPlan from "../diet-daily/ViewLastDailyMealPlan";
 import WeeklyMealPlan from "../diet-weekly/WeeklyMealPlan"
 import ViewLastWeeklyMealPlan from "../diet-weekly/ViewLastWeeklyPlan";
 import AemAdmin from "../aem/AemAdmin";
+import DocumentEditor from "../aem/DocumentEditor";
 
 const Main = () => {
   const { username, loginUser, logout, getActiveUser } = LoginLogout();
@@ -76,6 +77,7 @@ const Main = () => {
         <Route path="/viewLastWeeklyMealPlan" element={<ViewLastWeeklyMealPlan />} />
         <Route path="/weeklymealplan" element={<WeeklyMealPlan />} />
         <Route path="/aemAdmin" element={<AemAdmin />} />
+        <Route path="/documentEditor" element={<DocumentEditor />} />
         <Route
           path="/special"
           element={
